@@ -1,0 +1,58 @@
+{% extends 'account/base.html' %}
+{% block 'container' %}
+
+<div class="container pt-2">
+    <div class="row pt-2 text-center">
+        <div class="col">
+            <h1>Registration Form</h1>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12 border border-primary">
+            <form method="POST" action="{% url 'csup' %}">
+                {% csrf_token %}
+                <div class="form-group pt-2">
+                    <label for="fn">Name</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" id="fn" placeholder="First Name" name="fnam" required>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" id="fn" placeholder="Middle Name" name="mnam">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" id="fn" placeholder="Last Name" name="lnam" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ad">Address</label>
+                    <input type="text" class="form-control" id="ad" placeholder="Address" name="addr" required>
+                </div>
+                <div class="form-group">
+                    <label for="pn">Phone Number</label>
+                    <input type="number" class="form-control" id="pn" placeholder="+977*********" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="em">Email Address</label>
+                    <input type="email" class="form-control" id="em" placeholder="Enter Email" name="uemail" required>
+                </div>
+                <div class="form-group">
+                    <label for="ps">Password</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="password" id="ps" class="form-control" placeholder="Enter Password" name="pass1" required>
+                        </div>
+                        <div class="col">
+                            <input type="password" id="ps" class="form-control" placeholder="Conform Password" name="pass2" required>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
