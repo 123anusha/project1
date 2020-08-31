@@ -1,24 +1,25 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from .models import User
+from .models import User, CustomerProfile
 
 
 def c_signup(request):
     if request.method == 'POST':
         if request.POST['pass1'] == request.POST['pass2']:
             try:
-                user = User.objects.get(email=request.POST['uemail'])
-                return render(request, 'account/cregistration.html',{'error':'Email already exist'})
+                User.objects.get(email=request.POST['uemail'])
+                return render(request, 'account/cregistration.html', {'error': 'Email address already exists'})
             except User.DoesNotExist:
                 user = User.objects.create_customer(email=request.POST['uemail'],password=request.POST['pass1'])
+                cp = CustomerProfile()
                 cp.fname = request.POST['fnam']
                 cp.lname = request.POST['lnam']
                 if request.POST['mnam']!='':
                     cp.mname = request.POST['mnam']
                 cp.address = request.POST['addr']
                 cp.phone_no = request.POST['phone']
-                cp.vuser = user
+                cp.cuser = user
                 try:
                     cp.save()
                     return redirect('sin')

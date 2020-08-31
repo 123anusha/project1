@@ -9,7 +9,9 @@ class UserManager(BaseUserManager):
     def create_customer(self, email, password=None):
         if not email:
             raise ValueError('User must have an email address')
-        user = self.model(email=self.normalize_email(email))
+        #You need to set your model first
+        email = self.model(email=self.normalize_email(email))
+        user = self.model(email=email)
         user.set_password(password)
         #user.c_user = True
         user.save(using=self._db)
@@ -23,7 +25,6 @@ class UserManager(BaseUserManager):
         user.c_user = True
         user.save(using=self._db)
         return user
-
 
 
 class User(AbstractBaseUser):
@@ -50,8 +51,6 @@ class User(AbstractBaseUser):
     @property
     def is_cuser(self):
         return self.c_user
-
-
 
     @property
     def is_active(self):
