@@ -9,9 +9,9 @@ class UserManager(BaseUserManager):
     def create_customer(self, email, password=None):
         if not email:
             raise ValueError('User must have an email address')
-        user = self.model(email=self.normalize_email(email))
+        email = self.model(email=self.normalize_email(email))
+        user = self.model(email=email)
         user.set_password(password)
-        #user.c_user = True
         user.save(using=self._db)
         return user
 
@@ -23,7 +23,6 @@ class UserManager(BaseUserManager):
         user.c_user = True
         user.save(using=self._db)
         return user
-
 
 
 class User(AbstractBaseUser):
@@ -51,27 +50,6 @@ class User(AbstractBaseUser):
     def is_cuser(self):
         return self.c_user
 
-
-
     @property
     def is_active(self):
         return self.active
-
-
-class CustomerProfile(models.Model):
-    fname = models.CharField(max_length=20)
-    mname = models.CharField(max_length=20,null=True)
-    lname = models.CharField(max_length=20)
-    address = models.CharField(max_length=80)
-    phone_no = models.IntegerField()
-    cuser = models.ForeignKey(User,on_delete=models.CASCADE)
-
-    @property
-    def fullname(self):
-        if self.mname == None:
-            fn = self.fname + ' ' + self.lname
-            return fn
-        else:
-            fn = self.fname + ' ' + self.mname + ' ' + self.lname
-            return fn
-
